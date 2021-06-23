@@ -36,6 +36,7 @@ function dealHands() {
 }
 
 function hitMe() {
+    aasManip();
     if (countPlayerScore() <= 20) {
         console.log('moi');
         handPlayer.push(deck[0])
@@ -118,7 +119,7 @@ function changeBtn() {
 
 
 function countPlayerScore() {
-    aasManip();
+
     return handPlayer.reduce(function(accumulator, currentValue){
         return accumulator + currentValue.Value;
     }, 0);
