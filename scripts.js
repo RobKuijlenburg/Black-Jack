@@ -42,6 +42,7 @@ function hitMe() {
         deck.shift()
         renderCardPlayer(handPlayer[handPlayer.length-1]);
         updateDeck();
+   
         console.log(handPlayer);
         pScore.innerHTML = countPlayerScore();
     }
@@ -125,7 +126,7 @@ function countPlayerScore() {
 
 function aasManip() {
     for (let i = 0; i < handPlayer.length; i++){
-        if (countPlayerScore > 21 && handPlayer[Waarde] == "A"){
+        if (countPlayerScore > 21 && handPlayer[i].Waarde === "A"){
             handPlayer[i].Value = 1;  
         }
     }
