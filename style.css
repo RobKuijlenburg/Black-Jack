@@ -14,10 +14,8 @@ h3 {
     visibility: hidden;
 }
 
-.hide-text {
+.game .card.hide-text {
     color: white;
-    border: solid 1px #808080;
-    background-color: white;
 }
 
 .game {
@@ -41,14 +39,13 @@ h3 {
     width: 50px;
     height: 80px;
     padding: 10px;
-    border: solid 1px #808080;
+    border: solid 3px #808080;
     background-color: white;
     display: inline-block;
     border-radius: 10px;
     font-size: 10pt;
     text-align: center;
     margin: 3px;
-    border:solid 3px;
 }
 
 .button {

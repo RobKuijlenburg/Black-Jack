@@ -30,7 +30,8 @@ function dealHands() {
     }
     updateDeck();
     changeBtn();
-    
+    aasManip(handPlayer);
+    aasManip(handDealer);
     countScore(handPlayer);
     pScore.innerHTML = countScore(handPlayer);
     setTimeout(function(){checkPlayerCondition()},200);
@@ -43,7 +44,7 @@ function hitMe() {
         deck.shift()
         renderCard(handPlayer[handPlayer.length - 1], handP);
         updateDeck();
-        aasManip()
+        aasManip(handPlayer);
         console.log(handPlayer);
         pScore.innerHTML = countScore(handPlayer);    
         setTimeout(function(){checkPlayerCondition()},200);
@@ -51,17 +52,18 @@ function hitMe() {
 }
 
 function stay() {
-   cardSelect[cardSelect.length-1].classList.remove('hide-text')
-    while (countScore(handDealer) < 30) {
+    cardSelect[cardSelect.length-1].classList.remove('hide-text')
+    while (countScore(handDealer) < 18) {
         if (countScore(handDealer) < 16) {
             handDealer.push(deck[0])
             deck.shift()
             renderCard(handDealer[handDealer.length - 1], handD);
             updateDeck();
             dScore.innerHTML = countScore(handDealer);
+            aasManip(handDealer);
         } else if (countScore(handDealer) === 16 && countScore(handPlayer) === 16) {
             break;
-        } else if (countScore(handDealer) >= 17) {
+        } else if (countScore(handDealer) > 16) {
             break;
         }
     }
@@ -158,11 +160,10 @@ function checkWin() {
     
 }
 
-function aasManip() {
-    for (let i = 0; i < handPlayer.length; i++) {
-        if (countScore(handPlayer) > 21 && handPlayer[i].Waarde === "A") {
-            console.log('moi');
-            handPlayer[i].Value = 1;
+function aasManip(player) {
+    for (let i = 0; i < player.length; i++) {
+        if (countScore(player) > 21 && player[i].Waarde === "A") {
+            player[i].Value = 1;
         }
     }
 }
