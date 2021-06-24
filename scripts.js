@@ -9,13 +9,12 @@ const btn2 = document.querySelector('#button2');
 const handP = document.querySelector('#handPlayer');
 const handD = document.querySelector('#handDealer');
 const pScore = document.querySelector('#playerScore');
+const btnS = document.querySelector('#btnStart');
+const btnR = document.querySelector('#btnRestart');
 
 function startBlackJack() {
-    document.getElementById('btnStart').value = 'Restart';
     createDeck();
-    console.log(deck)
     shuffle();
-    console.log(deck)
 }
 
 function dealHands() {
@@ -30,23 +29,37 @@ function dealHands() {
     }
     updateDeck();
     changeBtn();
-    console.log(handPlayer, handDealer);
     countPlayerScore();
     pScore.innerHTML = countPlayerScore();
+    setTimeout(function(){checkPlayerCondition()},200);
 }
 
 function hitMe() {
-    aasManip();
     if (countPlayerScore() <= 20) {
-        console.log('moi');
         handPlayer.push(deck[0])
         deck.shift()
-        renderCardPlayer(handPlayer[handPlayer.length-1]);
+        renderCardPlayer(handPlayer[handPlayer.length - 1]);
         updateDeck();
-   
-        console.log(handPlayer);
-        pScore.innerHTML = countPlayerScore();
+        pScore.innerHTML = countPlayerScore();    
+        setTimeout(function(){checkPlayerCondition()},200);
+    }  
+}
+
+function stay() {
+    while (countDealerScore() < 30) {
+        if (countDealerScore() < 16) {
+            handDealer.push(deck[0])
+            deck.shift()
+            renderCardDealer(handDealer[handDealer.length - 1]);
+            updateDeck();
+            dScore.innerHTML = countDealerScore();
+        } else if (countDealerScore() === 16 && countPlayerScore() === 16) {
+            break;
+        } else if (countDealerScore() >= 17) {
+            break;
+        }
     }
+    setTimeout(function(){checkWin()}, 300);
 }
 
 
@@ -76,7 +89,6 @@ function shuffle() {
         let locatie1 = Math.floor((Math.random() * deck.length));
         let locatie2 = Math.floor((Math.random() * deck.length));
         let tmp = deck[locatie1];
-
         deck[locatie1] = deck[locatie2];
         deck[locatie2] = tmp;
     }
@@ -117,18 +129,44 @@ function changeBtn() {
     btn2.classList.remove('hidden');
 }
 
-
 function countPlayerScore() {
-
-    return handPlayer.reduce(function(accumulator, currentValue){
+    return handPlayer.reduce(function (accumulator, currentValue) {
         return accumulator + currentValue.Value;
     }, 0);
 }
 
+function countDealerScore() {
+    return handDealer.reduce(function (accumulator, currentValue) {
+        return accumulator + currentValue.Value;
+    }, 0);
+}
+
+function checkPlayerCondition() {
+    for (i = 0 ; i < 1; i ++) {
+        if (countPlayerScore() === 21){
+            alert('Black Jack. Player 1 wins!!')
+        } else if(countPlayerScore() > 21) {
+            alert('Player 1 busts');
+        }
+    }
+}
+
+function checkWin() {
+    for (i = 0; i < 1; i++){
+        if (countPlayerScore() > countDealerScore() || countDealerScore() > 21){
+            alert('Player 1 Wins');
+        } else if (countPlayerScore() < countDealerScore()){
+            alert('Dealer Wins');
+        } else if (countPlayerScore() === countDealerScore()) {
+            alert('Draw');
+        }
+    }
+}
+
 function aasManip() {
-    for (let i = 0; i < handPlayer.length; i++){
-        if (countPlayerScore > 21 && handPlayer[i].Waarde === "A"){
-            handPlayer[i].Value = 1;  
+    for (let i = 0; i < handPlayer.length; i++) {
+        if (countPlayerScore > 21 && handPlayer[i].Waarde === "A") {
+            handPlayer[i].Value = 1;
         }
     }
 }
