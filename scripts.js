@@ -1,3 +1,5 @@
+"use strict";
+
 const soort = ["Harten", "Schoppen", "Ruiten", "Klaveren"];
 const waarden = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "B", "V", "H", "A"];
 let deck = [];
@@ -158,11 +160,13 @@ function checkPlayerCondition() {
         if (countScore(handPlayer) === 21){
             cardSelect[cardSelect.length-1].classList.remove('hide-text')
             alert('Black Jack. Player 1 wins!!')
+            dScore.innerHTML = countScore(handDealer);
             winpcount += 1;
             winpSelect.innerHTML = winpcount;
-        } else if(countScore(handPlayer) > 21) {
+        } else if(countScore(handPlayer) > 21 || handPlayer.length > 5) {
             cardSelect[cardSelect.length-1].classList.remove('hide-text')
             alert('Player 1 busts');
+            dScore.innerHTML = countScore(handDealer);
             windcount += 1;
             windSelect.innerHTML = windcount;
         }
