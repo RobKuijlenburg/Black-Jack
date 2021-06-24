@@ -14,6 +14,12 @@ h3 {
     visibility: hidden;
 }
 
+.hide-text {
+    color: white;
+    border: solid 1px #808080;
+    background-color: white;
+}
+
 .game {
     background-color:aqua;
     padding: 0;

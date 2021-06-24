@@ -11,6 +11,7 @@ const handD = document.querySelector('#handDealer');
 const pScore = document.querySelector('#playerScore');
 const btnS = document.querySelector('#btnStart');
 const btnR = document.querySelector('#btnRestart');
+const cardSelect = document.getElementsByClassName('card');
 
 function startBlackJack() {
     createDeck();
@@ -23,39 +24,44 @@ function dealHands() {
         deck.shift()
         handDealer.push(deck[0])
         deck.shift()
-        renderCardDealer(handDealer[i]);
-        renderCardPlayer(handPlayer[i]);
-
+        renderCard(handDealer[i], handD);
+        renderCard(handPlayer[i], handP);
+        
     }
     updateDeck();
     changeBtn();
-    countPlayerScore();
-    pScore.innerHTML = countPlayerScore();
+    
+    countScore(handPlayer);
+    pScore.innerHTML = countScore(handPlayer);
     setTimeout(function(){checkPlayerCondition()},200);
+    cardSelect[3].classList.add('hide-text')
 }
 
 function hitMe() {
-    if (countPlayerScore() <= 20) {
+    if (countScore(handPlayer) <= 20) {
         handPlayer.push(deck[0])
         deck.shift()
-        renderCardPlayer(handPlayer[handPlayer.length - 1]);
+        renderCard(handPlayer[handPlayer.length - 1], handP);
         updateDeck();
-        pScore.innerHTML = countPlayerScore();    
+        aasManip()
+        console.log(handPlayer);
+        pScore.innerHTML = countScore(handPlayer);    
         setTimeout(function(){checkPlayerCondition()},200);
     }  
 }
 
 function stay() {
-    while (countDealerScore() < 30) {
-        if (countDealerScore() < 16) {
+   cardSelect[cardSelect.length-1].classList.remove('hide-text')
+    while (countScore(handDealer) < 30) {
+        if (countScore(handDealer) < 16) {
             handDealer.push(deck[0])
             deck.shift()
-            renderCardDealer(handDealer[handDealer.length - 1]);
+            renderCard(handDealer[handDealer.length - 1], handD);
             updateDeck();
-            dScore.innerHTML = countDealerScore();
-        } else if (countDealerScore() === 16 && countPlayerScore() === 16) {
+            dScore.innerHTML = countScore(handDealer);
+        } else if (countScore(handDealer) === 16 && countScore(handPlayer) === 16) {
             break;
-        } else if (countDealerScore() >= 17) {
+        } else if (countScore(handDealer) >= 17) {
             break;
         }
     }
@@ -98,14 +104,9 @@ function updateDeck() {
     document.getElementById('deckcount').innerHTML = deck.length;
 }
 
-function renderCardPlayer(card) {
-    handP.appendChild(getCardUI(card));
+function renderCard(card, hand) {
+    hand.appendChild(getCardUI(card));
 }
-
-function renderCardDealer(card) {
-    handD.appendChild(getCardUI(card));
-}
-
 
 function getCardUI(card) {
     const el = document.createElement('div');
@@ -129,43 +130,38 @@ function changeBtn() {
     btn2.classList.remove('hidden');
 }
 
-function countPlayerScore() {
-    return handPlayer.reduce(function (accumulator, currentValue) {
-        return accumulator + currentValue.Value;
-    }, 0);
-}
-
-function countDealerScore() {
-    return handDealer.reduce(function (accumulator, currentValue) {
+function countScore(player) {
+    return player.reduce(function (accumulator, currentValue) {
         return accumulator + currentValue.Value;
     }, 0);
 }
 
 function checkPlayerCondition() {
-    for (i = 0 ; i < 1; i ++) {
-        if (countPlayerScore() === 21){
+    // aasManip();
+        if (countScore(handPlayer) === 21){
+            cardSelect[cardSelect.length-1].classList.remove('hide-text')
             alert('Black Jack. Player 1 wins!!')
-        } else if(countPlayerScore() > 21) {
+        } else if(countScore(handPlayer) > 21) {
+            cardSelect[cardSelect.length-1].classList.remove('hide-text')
             alert('Player 1 busts');
         }
-    }
 }
 
 function checkWin() {
-    for (i = 0; i < 1; i++){
-        if (countPlayerScore() > countDealerScore() || countDealerScore() > 21){
-            alert('Player 1 Wins');
-        } else if (countPlayerScore() < countDealerScore()){
-            alert('Dealer Wins');
-        } else if (countPlayerScore() === countDealerScore()) {
-            alert('Draw');
-        }
+    if (countScore(handPlayer) > countScore(handDealer) || countScore(handDealer) > 21){
+        alert('Player 1 Wins');
+    } else if (countScore(handPlayer) < countScore(handDealer)){
+        alert('Dealer Wins');
+    } else if (countScore(handPlayer) === countScore(handDealer)) {
+        alert('Draw');
     }
+    
 }
 
 function aasManip() {
     for (let i = 0; i < handPlayer.length; i++) {
-        if (countPlayerScore > 21 && handPlayer[i].Waarde === "A") {
+        if (countScore(handPlayer) > 21 && handPlayer[i].Waarde === "A") {
+            console.log('moi');
             handPlayer[i].Value = 1;
         }
     }
