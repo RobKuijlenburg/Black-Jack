@@ -18,6 +18,19 @@ function startBlackJack() {
     shuffle();
 }
 
+function restart() {
+    deck = [];
+    handPlayer = [];
+    handDealer = [];
+    btn2.classList.add('hidden')
+    btn1.classList.remove('hidden');
+    createDeck();
+    shuffle();
+    console.log(handPlayer);
+    console.log(handDealer);
+    document.querySelectorAll('.card').forEach(e => e.remove());
+}
+
 function dealHands() {
     for (let i = 0; i < 2; i++) {
         handPlayer.push(deck[0])
@@ -25,8 +38,7 @@ function dealHands() {
         handDealer.push(deck[0])
         deck.shift()
         renderCard(handDealer[i], handD);
-        renderCard(handPlayer[i], handP);
-        
+        renderCard(handPlayer[i], handP);    
     }
     updateDeck();
     changeBtn();
@@ -53,7 +65,7 @@ function hitMe() {
 
 function stay() {
     cardSelect[cardSelect.length-1].classList.remove('hide-text')
-    while (countScore(handDealer) < 18) {
+    while (countScore(handDealer) < 16) {
         if (countScore(handDealer) < 16) {
             handDealer.push(deck[0])
             deck.shift()
