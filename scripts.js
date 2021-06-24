@@ -12,10 +12,15 @@ const pScore = document.querySelector('#playerScore');
 const btnS = document.querySelector('#btnStart');
 const btnR = document.querySelector('#btnRestart');
 const cardSelect = document.getElementsByClassName('card');
+let winpcount = 0;
+let windcount = 0;
+const winpSelect = document.getElementById('playerwins');
+const windSelect = document.getElementById('dealerwins');
 
 function startBlackJack() {
     createDeck();
     shuffle();
+    printScore();
 }
 
 function restart() {
@@ -26,8 +31,7 @@ function restart() {
     btn1.classList.remove('hidden');
     createDeck();
     shuffle();
-    console.log(handPlayer);
-    console.log(handDealer);
+    printScore();
     document.querySelectorAll('.card').forEach(e => e.remove());
 }
 
@@ -57,7 +61,6 @@ function hitMe() {
         renderCard(handPlayer[handPlayer.length - 1], handP);
         updateDeck();
         aasManip(handPlayer);
-        console.log(handPlayer);
         pScore.innerHTML = countScore(handPlayer);    
         setTimeout(function(){checkPlayerCondition()},200);
     }  
@@ -79,6 +82,7 @@ function stay() {
             break;
         }
     }
+    dScore.innerHTML = countScore(handDealer);
     setTimeout(function(){checkWin()}, 300);
 }
 
@@ -151,25 +155,36 @@ function countScore(player) {
 }
 
 function checkPlayerCondition() {
-    // aasManip();
         if (countScore(handPlayer) === 21){
             cardSelect[cardSelect.length-1].classList.remove('hide-text')
             alert('Black Jack. Player 1 wins!!')
+            winpcount += 1;
+            winpSelect.innerHTML = winpcount;
         } else if(countScore(handPlayer) > 21) {
             cardSelect[cardSelect.length-1].classList.remove('hide-text')
             alert('Player 1 busts');
+            windcount += 1;
+            windSelect.innerHTML = windcount;
         }
 }
 
 function checkWin() {
     if (countScore(handPlayer) > countScore(handDealer) || countScore(handDealer) > 21){
         alert('Player 1 Wins');
+        winpcount += 1;
+        winpSelect.innerHTML = winpcount;
     } else if (countScore(handPlayer) < countScore(handDealer)){
         alert('Dealer Wins');
+        windcount += 1;
+        windSelect.innerHTML = windcount;
     } else if (countScore(handPlayer) === countScore(handDealer)) {
         alert('Draw');
     }
-    
+}
+
+function printScore() {
+    pScore.innerHTML = countScore(handPlayer);
+    dScore.innerHTML = countScore(handDealer);
 }
 
 function aasManip(player) {
