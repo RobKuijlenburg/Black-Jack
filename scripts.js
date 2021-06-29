@@ -57,6 +57,8 @@ function dealHands() {
 }
 
 function hitMe() {
+    // TODO :: turn around to reduce indents and increase readability
+    // if (countScore(handPlayer) > 20) return
     if (countScore(handPlayer) <= 20) {
         handPlayer.push(deck[0])
         deck.shift()
@@ -112,6 +114,7 @@ function createDeck() {
 
 function shuffle() {
     for (let i = 0; i < deck.length; i++) {
+        // TODO :: can use const here
         let locatie1 = Math.floor((Math.random() * deck.length));
         let locatie2 = Math.floor((Math.random() * deck.length));
         let tmp = deck[locatie1];
